@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.edisonchavez.challenge.starwars.integrations.FilmsIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.052 s - in com.edisonchavez.challenge.starwars.integrations.FilmsIntegrationTest
