@@ -83,22 +83,23 @@ com.edisonchavez.challenge
 
 ---
 
+## Heroku
+### la aplicacion esta cargada en heroku donde se puede realizar las pruebas
+> https://backend-starwars-5c65ca40ef88.herokuapp.com
+
+---
+## Usuarios por defecto
+
+> username: admin
+> 
+> password: password
+
+
 ## Endpoints
 
-* `GET /api/people`
+> Se adjunta un postman para revisar las apis disponibles en la raiz del proyecto
 
-    * **Query params**:
-
-        * `page` (0-based, default `0`)
-        * `size` (default `10`, máx `100`)
-        * `name` (opcional; si viene, filtra por nombre)
-    * **Respuesta**: `Page<PersonListProps>` (ordenado por `name`).
-
-* `GET /api/people/{id}`
-
-    * **Respuesta**: `PersonProps`.
-
-> Nota: el cliente externo (SWAPI.tech) usa `page` **1-based**. El servicio adapta `page + 1` y aplica **orden y paginación local** para respuestas filtradas.
+> test-starwars.postman_collection.json
 
 ---
 
@@ -114,8 +115,8 @@ com.edisonchavez.challenge
 
 ```bash
 # 1) Clonar
-git clone https://github.com/tu-org/tu-repo.git
-cd tu-repo
+git clone https://github.com/ch-edison/challenge-java8
+cd challenge-java8
 
 # 2) Construir sin tests
 mvn -DskipTests clean package
@@ -127,19 +128,6 @@ export SECURITY_JWT_SECRET="E7sJr3VjKkG4p2mQ9wA1tZc6R8uM5nX0B4fH7kP2sD9yL3eT6qW8
 mvn spring-boot:run
 # ó
 java -jar target/*.jar
-```
-
-### Ejecución con Docker (app sola)
-
-```bash
-# Construir imagen
-docker build -t starwars-people:local .
-
-# Ejecutar
-docker run --rm -p 8080:8080 \
-  -e SECURITY_JWT_SECRET=$SECURITY_JWT_SECRET \
-  -e STARWARS_BASE_URL=https://www.swapi.tech \
-  --name starwars starwars:local
 ```
 
 ### Docker Compose (app + redis opcional)
@@ -177,7 +165,7 @@ mvn test jacoco:report
 
 ---
 
-## Archivos de soporte
+## Ejecucion Local
 
 Para levantar local solo es necesario levantar el siguiente docker compose
 ### `docker-compose.yml`
