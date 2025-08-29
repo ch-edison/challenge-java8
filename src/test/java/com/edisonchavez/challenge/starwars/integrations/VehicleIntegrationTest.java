@@ -43,7 +43,7 @@ class VehicleIntegrationTest {
                 )));
 
         HttpHeaders h = new HttpHeaders();
-        h.setBearerAuth(jwt.generateToken("luke"));
+        h.setBearerAuth(jwt.generateToken("admin"));
 
         ResponseEntity<String> resp = rest.exchange(
                 "/api/vehicles?page=0&size=1&name=San",
@@ -63,7 +63,7 @@ class VehicleIntegrationTest {
                 )));
 
         HttpHeaders h = new HttpHeaders();
-        h.setBearerAuth(jwt.generateToken("luke"));
+        h.setBearerAuth(jwt.generateToken("admin"));
 
         ResponseEntity<String> resp = rest.exchange(
                 "/api/vehicles/4",
@@ -82,7 +82,7 @@ class VehicleIntegrationTest {
                 )));
 
         HttpHeaders h = new HttpHeaders();
-        h.setBearerAuth(jwt.generateToken("luke"));
+        h.setBearerAuth(jwt.generateToken("admin"));
 
         ResponseEntity<String> resp = rest.exchange(
                 "/api/vehicles?page=0&size=10",

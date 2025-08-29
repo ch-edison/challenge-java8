@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: com.edisonchavez.challenge.starwars.service.CacheConfigUnitTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.466 s <<< FAILURE! - in com.edisonchavez.challenge.starwars.service.CacheConfigUnitTest
+cacheManagerHasExpectedConfigurations  Time elapsed: 0.466 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual:
+  {}
+to contain keys:
+  ["films:list", "people:list", "vehicles:detail"]
+	at com.edisonchavez.challenge.starwars.service.CacheConfigUnitTest.cacheManagerHasExpectedConfigurations(CacheConfigUnitTest.java:22)
+

@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "dcb8ca52-9c6a-43f3-8b2d-415c56901b87",
+		"_postman_id": "03d48112-49f4-41f5-b63b-eca2ae3375f4",
 		"name": "test-starwars",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "6227356",
-		"_collection_link": "https://cronoti.postman.co/workspace/edisonchavez~c4141fc4-6b05-417f-9404-86521e81100c/collection/6227356-dcb8ca52-9c6a-43f3-8b2d-415c56901b87?action=share&source=collection_link&creator=6227356"
+		"_collection_link": "https://cronoti.postman.co/workspace/nuevo~c15a8255-db18-4aa9-9834-54a6b6c16134/collection/6227356-03d48112-49f4-41f5-b63b-eca2ae3375f4?action=share&source=collection_link&creator=6227356"
 	},
 	"item": [
 		{
@@ -26,9 +26,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/people",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/people",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -54,9 +57,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/people?name",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/people?name=Pa",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -65,7 +71,7 @@
 							"query": [
 								{
 									"key": "name",
-									"value": null
+									"value": "Pa"
 								}
 							]
 						}
@@ -88,9 +94,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/people/1",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/people/1",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -122,9 +131,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/films",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/films",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -150,9 +162,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/films/1",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/films/1",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -184,9 +199,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/starships",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/starships",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -212,9 +230,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/starships/2",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/starships/2",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -246,9 +267,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/vehicles",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/vehicles",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -274,9 +298,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/vehicles/1",
+							"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/api/vehicles/1",
+							"protocol": "https",
 							"host": [
-								"{{host}}"
+								"backend-starwars-5c65ca40ef88",
+								"herokuapp",
+								"com"
 							],
 							"path": [
 								"api",
@@ -309,7 +336,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\":\"luke\",\n    \"password\":\"force123\"\n}",
+					"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"password\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -317,9 +344,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/auth/login",
+					"raw": "https://backend-starwars-5c65ca40ef88.herokuapp.com/auth/login",
+					"protocol": "https",
 					"host": [
-						"{{host}}"
+						"backend-starwars-5c65ca40ef88",
+						"herokuapp",
+						"com"
 					],
 					"path": [
 						"auth",

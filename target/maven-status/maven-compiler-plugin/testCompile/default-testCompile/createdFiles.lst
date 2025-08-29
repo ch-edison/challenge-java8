@@ -1,5 +1,6 @@
 com/edisonchavez/challenge/starwars/integrations/FilmsIntegrationTest.class
 com/edisonchavez/challenge/starwars/service/FilmsServiceImplTest.class
+com/edisonchavez/challenge/starwars/service/StarshipsServiceImplTest.class
 com/edisonchavez/challenge/starwars/integrations/VehicleIntegrationTest.class
 com/edisonchavez/challenge/starwars/integrations/PeopleIntegrationTest.class
 com/edisonchavez/challenge/starwars/service/JwtUtilTest.class

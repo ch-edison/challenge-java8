@@ -4,4 +4,5 @@
 /Users/edisonchavez/test/challenge-java8/src/test/java/com/edisonchavez/challenge/starwars/integrations/PeopleIntegrationTest.java
 /Users/edisonchavez/test/challenge-java8/src/test/java/com/edisonchavez/challenge/starwars/service/PeopleServiceImplTest.java
 /Users/edisonchavez/test/challenge-java8/src/test/java/com/edisonchavez/challenge/starwars/service/JwtUtilTest.java
+/Users/edisonchavez/test/challenge-java8/src/test/java/com/edisonchavez/challenge/starwars/service/StarshipsServiceImplTest.java
 /Users/edisonchavez/test/challenge-java8/src/test/java/com/edisonchavez/challenge/starwars/service/FilmsServiceImplTest.java

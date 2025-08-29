@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilmsCacheRepo.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">challenge</a> &gt; <a href="index.source.html" class="el_package">com.edisonchavez.challenge.films.service</a> &gt; <span class="el_source">FilmsCacheRepo.java</span></div><h1>FilmsCacheRepo.java</h1><pre class="source lang-java linenums">package com.edisonchavez.challenge.films.service;
+
+import com.edisonchavez.challenge.films.client.FilmClient;
+import com.edisonchavez.challenge.films.dto.ApiListResponse;
+import com.edisonchavez.challenge.films.dto.FilmProps;
+import com.edisonchavez.challenge.shared.ResultData;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class FilmsCacheRepo {
+
+    private final FilmClient client;
+
+    @Cacheable(cacheNames = &quot;films:list&quot;, key = &quot;'all'&quot;)
+    public List&lt;FilmProps&gt; fetchAll() {
+<span class="fc" id="L23">        ApiListResponse&lt;ResultData&lt;FilmProps&gt;&gt; resp = client.list();</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        if (resp.getResult() == null) return Collections.emptyList();</span>
+<span class="fc" id="L25">        return resp.getResult().stream().map(ResultData::getProperties).collect(Collectors.toList());</span>
+    }
+
+    @Cacheable(cacheNames = &quot;films:detail&quot;, key = &quot;#id&quot;)
+    public FilmProps fetchById(String id) {
+<span class="nc" id="L30">        return client.get(id).getResult().getProperties();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

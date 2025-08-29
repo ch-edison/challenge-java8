@@ -88,7 +88,7 @@ com.edisonchavez.challenge
 > https://backend-starwars-5c65ca40ef88.herokuapp.com
 
 ---
-## Usuarios por defecto
+## Usuario por defecto
 
 > username: admin
 > 

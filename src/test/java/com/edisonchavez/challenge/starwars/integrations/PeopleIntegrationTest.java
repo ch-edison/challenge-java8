@@ -44,7 +44,7 @@ class PeopleIntegrationTest {
                 )));
 
         HttpHeaders h = new HttpHeaders();
-        h.setBearerAuth(jwt.generateToken("luke"));
+        h.setBearerAuth(jwt.generateToken("admin"));
 
         ResponseEntity<String> resp = rest.exchange(
                 "/api/people?page=0&size=1&name=lu",
@@ -64,7 +64,7 @@ class PeopleIntegrationTest {
                 )));
 
         HttpHeaders h = new HttpHeaders();
-        h.setBearerAuth(jwt.generateToken("luke"));
+        h.setBearerAuth(jwt.generateToken("admin"));
 
         ResponseEntity<String> resp = rest.exchange(
                 "/api/people/1",
@@ -84,7 +84,7 @@ class PeopleIntegrationTest {
                 )));
 
         HttpHeaders h = new HttpHeaders();
-        h.setBearerAuth(jwt.generateToken("luke"));
+        h.setBearerAuth(jwt.generateToken("admin"));
 
         ResponseEntity<String> resp = rest.exchange(
                 "/api/people?page=0&size=10",

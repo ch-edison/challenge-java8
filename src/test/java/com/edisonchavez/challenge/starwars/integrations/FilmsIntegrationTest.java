@@ -44,7 +44,7 @@ class FilmsIntegrationTest {
                         .withBody("{\"message\":\"ok\",\"result\":[{\"properties\":{\"title\":\"A New Hope\",\"episode_id\":4,\"url\":\"https://www.swapi.tech/api/films/1\"}},{\"properties\":{\"title\":\"The Empire Strikes Back\",\"episode_id\":5,\"url\":\"https://www.swapi.tech/api/films/2\"}}]}")));
 
         HttpHeaders h = new HttpHeaders();
-        h.setBearerAuth(jwt.generateToken("luke"));
+        h.setBearerAuth(jwt.generateToken("admin"));
         HttpEntity<Void> req = new HttpEntity<>(h);
 
         ResponseEntity<String> r1 = rest.exchange("/api/films?page=0&size=1&search=hope", HttpMethod.GET, req, String.class);

@@ -21,9 +21,7 @@ public interface StarshipsClient {
     @GetMapping
     FilterResponse<StarshipsProps> listFilter(@SpringQueryMap QueryRequest query);
 
-
     @GetMapping("/{id}")
     ApiResponse<ResultData<StarshipsProps>> get(@PathVariable("id") String id);
-
 
 }

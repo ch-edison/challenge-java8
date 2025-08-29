@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StarshipsServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">challenge</a> &gt; <a href="index.source.html" class="el_package">com.edisonchavez.challenge.starships.service</a> &gt; <span class="el_source">StarshipsServiceImpl.java</span></div><h1>StarshipsServiceImpl.java</h1><pre class="source lang-java linenums">package com.edisonchavez.challenge.starships.service;
+
+import com.edisonchavez.challenge.shared.Constants;
+import com.edisonchavez.challenge.shared.FilterResponse;
+import com.edisonchavez.challenge.shared.QueryRequest;
+import com.edisonchavez.challenge.shared.ResultData;
+import com.edisonchavez.challenge.starships.client.StarshipsClient;
+import com.edisonchavez.challenge.starships.dto.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+@CacheConfig(cacheNames = Constants.CACHE_STARTSHIPS)
+public class StarshipsServiceImpl implements StarshipsService {
+
+    private static final Collator NAME_COLLATOR;
+    private static final Comparator&lt;StarshipsListProps&gt; BY_NAME;
+
+    static {
+<span class="fc" id="L33">        NAME_COLLATOR = Collator.getInstance();</span>
+<span class="fc" id="L34">        NAME_COLLATOR.setStrength(Collator.PRIMARY);</span>
+<span class="fc" id="L35">        BY_NAME = Comparator</span>
+<span class="fc" id="L36">                .comparing(StarshipsListProps::getName,</span>
+<span class="fc" id="L37">                        Comparator.nullsLast(NAME_COLLATOR));</span>
+<span class="fc" id="L38">    }</span>
+
+    private final StarshipsClient client;
+
+    @Override
+    @Cacheable(
+            cacheNames = Constants.CACHE_STARTSHIPS_LIST,
+            key = &quot;#root.target.cacheKey(#page, #size, #name)&quot;,
+            unless = &quot;#result == null || !#result.hasContent()&quot;
+    )
+    public Page&lt;StarshipsListProps&gt; list(int page, int size, String name) {
+<span class="fc" id="L49">        Pageable pageable  = buildPageable(page, size);</span>
+<span class="fc" id="L50">        String   safeName  = sanitizeName(name);</span>
+
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (safeName == null) {</span>
+<span class="fc" id="L53">            PageResponse&lt;StarshipsListProps&gt; ext = client.list();</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            List&lt;StarshipsListProps&gt; origin = safeList(ext != null ? ext.getResults() : null);</span>
+<span class="fc" id="L55">            List&lt;StarshipsListProps&gt; sorted = sort(origin);</span>
+<span class="pc bpc" id="L56" title="1 of 4 branches missed.">            long total = ext != null &amp;&amp; ext.getTotalRecords() != null</span>
+<span class="fc" id="L57">                    ? ext.getTotalRecords()</span>
+<span class="fc" id="L58">                    : sorted.size();</span>
+<span class="fc" id="L59">            return page(sorted, pageable, total);</span>
+        }
+
+<span class="fc" id="L62">        QueryRequest query = buildQuery(pageable, safeName);</span>
+<span class="fc" id="L63">        FilterResponse&lt;StarshipsProps&gt; ext = client.listFilter(query);</span>
+
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        List&lt;ResultData&lt;StarshipsProps&gt;&gt; rows = safeList(ext != null ? ext.getResult() : null);</span>
+<span class="fc" id="L66">        List&lt;StarshipsListProps&gt; mapped = mapRows(rows);</span>
+<span class="fc" id="L67">        List&lt;StarshipsListProps&gt; sorted = sort(mapped);</span>
+
+<span class="fc" id="L69">        return page(sorted, pageable, sorted.size());</span>
+    }
+
+    @Override
+    @Cacheable(cacheNames = Constants.CACHE_STARTSHIPS_DETAIL, key = &quot;#id&quot;)
+    public StarshipsProps get(String id) {
+<span class="fc" id="L75">        ApiResponse&lt;ResultData&lt;StarshipsProps&gt;&gt; resp = client.get(id);</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        ResultData&lt;StarshipsProps&gt; result = resp != null ? resp.getResult() : null;</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        return result != null ? result.getProperties() : null;</span>
+    }
+
+    public String cacheKey(int page, int size, String name) {
+<span class="fc" id="L81">        return new StringBuilder()</span>
+<span class="fc" id="L82">                .append(Math.max(0, page))</span>
+<span class="fc" id="L83">                .append('|')</span>
+<span class="fc" id="L84">                .append(Math.min(Math.max(1, size), Constants.MAX_PAGE_SIZE))</span>
+<span class="fc" id="L85">                .append('|')</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                .append(sanitizeName(name) != null ? sanitizeName(name) : &quot;&quot;)</span>
+<span class="fc" id="L87">                .toString();</span>
+    }
+
+    private static Pageable buildPageable(int page, int size) {
+<span class="fc" id="L91">        int p = Math.max(0, page);</span>
+<span class="fc" id="L92">        int s = Math.min(Math.max(1, size), Constants.MAX_PAGE_SIZE);</span>
+<span class="fc" id="L93">        return PageRequest.of(p, s);</span>
+    }
+
+    private static String sanitizeName(String name) {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (name == null) return null;</span>
+<span class="fc" id="L98">        String trimmed = name.trim();</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        return trimmed.isEmpty() ? null : trimmed;</span>
+    }
+
+    private static QueryRequest buildQuery(Pageable pageable, String safeName) {
+<span class="fc" id="L103">        int apiPage  = pageable.getPageNumber() + 1;</span>
+<span class="fc" id="L104">        int apiLimit = pageable.getPageSize();</span>
+<span class="fc" id="L105">        return new QueryRequest(apiPage, apiLimit, safeName);</span>
+    }
+
+    private static &lt;T&gt; List&lt;T&gt; safeList(List&lt;T&gt; in) {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        return (in == null) ? Collections.emptyList() : in;</span>
+    }
+
+    private static List&lt;StarshipsListProps&gt; sort(List&lt;StarshipsListProps&gt; items) {
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        if (items.isEmpty()) return items;</span>
+<span class="fc" id="L114">        List&lt;StarshipsListProps&gt; copy = new ArrayList&lt;&gt;(items);</span>
+<span class="fc" id="L115">        copy.sort(BY_NAME);</span>
+<span class="fc" id="L116">        return copy;</span>
+    }
+
+    private static Page&lt;StarshipsListProps&gt; page(List&lt;StarshipsListProps&gt; sortedAll, Pageable pageable, long total) {
+<span class="fc" id="L120">        int start = (int) Math.min(pageable.getOffset(), sortedAll.size());</span>
+<span class="fc" id="L121">        int end   = Math.min(start + pageable.getPageSize(), sortedAll.size());</span>
+<span class="fc" id="L122">        List&lt;StarshipsListProps&gt; slice = sortedAll.subList(start, end);</span>
+<span class="fc" id="L123">        return new PageImpl&lt;&gt;(slice, pageable, total);</span>
+    }
+
+    private static List&lt;StarshipsListProps&gt; mapRows(List&lt;ResultData&lt;StarshipsProps&gt;&gt; rows) {
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        if (rows.isEmpty()) return Collections.emptyList();</span>
+<span class="fc" id="L128">        List&lt;StarshipsListProps&gt; out = new ArrayList&lt;&gt;(rows.size());</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        for (ResultData&lt;StarshipsProps&gt; r : rows) {</span>
+<span class="pc bpc" id="L130" title="1 of 2 branches missed.">            if (r == null) continue;</span>
+<span class="fc" id="L131">            StarshipsProps p = r.getProperties();</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">            if (p == null) continue;</span>
+<span class="fc" id="L133">            StarshipsListProps pl = new StarshipsListProps();</span>
+<span class="fc" id="L134">            pl.setUid(r.getUid());</span>
+<span class="fc" id="L135">            pl.setName(p.getName());</span>
+<span class="fc" id="L136">            pl.setUrl(p.getUrl());</span>
+<span class="fc" id="L137">            out.add(pl);</span>
+<span class="fc" id="L138">        }</span>
+<span class="fc" id="L139">        return out;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
